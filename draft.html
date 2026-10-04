@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en"> 
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cuisine La World</title>
+
+    </head>
+    <body>
+        <header>
+            <h1>Welcome to Cuisine La World. Your Recipe Book</h1>
+      
+        <h2>Discover the world of culinary delights with our extensive collection of recipes from around the globe. 
+            
+        </h2>
+        <nav>
+           
+            <ul>
+                <a href="/index.html">Home</a>
+                <a href="#recipe1">Creamy Italian Tomato Pasta</a>
+                <a href="#recipe2">Kerala Coconut Vegetable Stew</a>
+                <a href="#add">Share a Recipe </a>
+        </ul>
+            
+        </nav>
+
+         <nav>
+           
+            <ul>
+                <a href="/home">Home</a>
+                <a href="/blog">Blog - Share a Recipe</a>
+               
+        </ul>
+            
+        </nav>
+          </header>
+
+          <article id="#recipe1">
+        
+        <h3> <B> CREAMY ITALIAN Tomato Pasta </B> </h3>
+        <P> A comforting pasta dish with a rich tomato sauce, 
+            garlic, basil, and Parmesan cheese.</P>
+
+        <h3> Ingredients</h3>
+        <ul>
+            <li> 8 oz pasta (spaghetti or penne)</li>
+            <li> 2 tbsp olive oil</li>
+            <li> 3 cloves garlic, minced</li>
+            <li> 1 can (14 oz) crushed tomatoes</li>
+            <li> 1/2 cup heavy cream</li>
+            <li> 1/4 cup grated Parmesan cheese</li>
+            <li> Salt and pepper to taste</li>
+            <li> Fresh basil leaves for garnish</li>
+        </ul>
+
+        <h3> Instructions</h3>
+        <ol>
+            <li> Cook the pasta according to package instructions. Drain and set aside.</li>
+            <li> In a large skillet, heat olive oil over medium heat. Add minced garlic and sauté for 1-2 minutes until fragrant.</li>
+            <li> Add crushed tomatoes to the skillet and simmer for 10 minutes, stirring occasionally.</li>
+            <li> Reduce heat to low and stir in heavy cream and grated Parmesan cheese. Season with salt and pepper to taste.</li>
+            <li> Add the cooked pasta to the sauce and toss to coat evenly.</li>
+            <li> Serve hot, garnished with fresh basil leaves.</li>
+        </ol>  
+        </article>
+
+        <article id="#recipe2">
+        <h3> <B> Kerala Coconut Vegetable Stew </B> </h3>
+        <P> A flavorful and aromatic stew made with fresh vegetables,
+             coconut milk, and traditional Kerala spices.</P>
+            
+        <h3> Ingredients</h3>
+        <ul>
+            <li> 2 tbsp coconut oil</li>
+            <li> 1 tsp mustard seeds</li>
+            <li> 1 tsp cumin seeds</li>
+            <li> 1 onion, finely chopped</li>
+            <li> 2 cloves garlic, minced</li>
+            <li> 1-inch piece ginger, grated</li>       
+        <li> 2 cups mixed vegetables (carrots, beans, peas, etc.)</li>
+            <li> 1 can (14 oz) coconut milk</li>
+            <li> 1 sprig curry leaves, salt, and pepper</li>
+            <li> Fresh coriander leaves for garnish</li>
+        </ul>   
+
+        <h3> Instructions</h3>
+        <ol>
+            <li> Heat coconut oil in a saucepan 
+                and sauté the onion, ginger, green chili, and curry leaves.</li>
+            <li> Add the vegetables, salt, and 100 ml water.</li>
+            <li> Cover and cook for 10-15 minutes until the vegetables are tender.</li>
+            <li> Pour in the coconut milk and simmer for another 5 minutes.</li>
+            <li> Adjust seasoning with salt and pepper.</li>
+            <li> Serve hot, garnished with fresh coriander leaves.</li>
+        </ol>
+        </article>  
+
+    </body>
+</html>
+
+
+
+<!-- code for different stylesheet for different pages 
+ Step 1: Set up base.html with a Block
+Add a block inside your <head> section:
+
+    <!DOCTYPE html>
+<html>
+<head>
+    <!-- This is a placeholder for page-specific styles 
+    {% block page_css %}{% endblock %}
+</head>
+<body>
+    {% block content %}{% endblock %}
+</body>
+</html>
+
+Step 2: Link specific files in index.html
+In your homepage file, use that block to link only your homepage Bootstrap and main.css:
+
+{% extends "base.html" %}
+
+{% block page_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-home.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+{% endblock %}
+
+{% block content %}
+    <p>Welcome to my home page.</p>
+{% endblock %}
+
+
+Step 3: Link specific files in blog.html
+In your blog file, use the same block to link your blog Bootstrap and blog.css:
+
+{% extends "base.html" %}
+
+{% block page_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-blog.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/blog.css') }}">
+{% endblock %}
+
+{% block content %}
+    <p>Welcome to my blog page.</p>
+{% endblock %} --!>
+
+
+
+
+<!-- 
+The issue was this global rule:
+div {
+  background-color: #f2f2f2;
+}
+
+It also styled Bootstrap’s navbar container: <div class="container-fluid">
+
+  That gray background covered the navbar color. I scoped the rule and added:
+  
+  .custom-navbar .container-fluid {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
+Now the entire navbar, including the area behind Home, Blogs, and Sign In / Sign Up, should use:
+
+.custom-navbar {
+  background-color: darkgreen !important;
+}
+
+
+You can remove it. That rule gives every <div> a gray background, which can interfere with Bootstrap components.
+
+Remove the entire global rule:
+
+
+
+Then style only the specific section that needs it:
+.content-box {
+  color: rgba(0, 0, 20, 0.755);
+  background-color: #f2f2f2;
+  padding: 2px;
+  border-radius: 5px;
+}
+
+HTML:
+<div class="content-box">
+  Your content
+</div>
+
+--!>
+
+
+
+
+
+
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content-login-section">
+	<form method="POST" action="">
+		{{ form.hidden_tag() }}
+		<fieldset class="form-group">
+			<legend class="border-bottom mb-4">Login</legend>
+
+			<div class="form-group">
+				{{ form.email.label(class="form-control-label") }}
+				{{ form.email(class="form-control form-control-lg") }}
+			</div>
+
+			<div class="form-group">
+				{{ form.password.label(class="form-control-label") }}
+				{{ form.password(class="form-control form-control-lg") }}
+			</div>
+
+			<div class="form-group">
+				{{ form.remember() }}
+				{{ form.remember.label(class="form-control-label") }}
+			</div>
+		</fieldset>
+
+		<div class="form-group">
+			{{ form.submit(class="btn btn-primary") }}
+		</div>
+	</form>
+</div>
+
+{% endblock %}

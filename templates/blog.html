@@ -1,0 +1,52 @@
+
+{% extends "base.html" %}
+
+{% block title %}
+CookBook/blog
+{% endblock %}   
+
+{% block styles %} {% endblock %}
+
+
+{% block page_header %}
+<header>
+	<h1>CookBook Blog</h1>
+	<p>Share your favorite recipes and cooking ideas.</p>
+</header>
+{% endblock %}
+
+{% block content %}
+
+<h2 class="blogpost">Recipes and posts</h2>
+
+{% if current_user.is_authenticated %}
+<p><a class="btn btn-primary mb-3" href="{{ url_for('new_post') }}">Create a post</a></p>
+{% endif %}
+
+{% for post in posts %}
+<article class="card mb-3">
+    <div class="card-body">
+        <img class="rounded-circle me-2" width="48" height="48"
+             src="{{ url_for('static', filename=post.author.profile_image) }}"
+             alt="{{ post.author.username }}'s profile picture">
+        <h3 class="card-title">{{ post.title }}</h3>
+        <p class="card-text">{{ post.content }}</p>
+        <p class="card-text">
+            <small class="text-muted">
+                By {{ post.author.username }} on {{ post.date_posted.strftime('%B %d, %Y') }}
+            </small>
+        </p>
+        {% if current_user.is_authenticated and post.author.id == current_user.id %}
+        <a class="btn btn-secondary btn-sm" href="{{ url_for('update_post', post_id=post.id) }}">Edit</a>
+        <form class="d-inline" method="POST" action="{{ url_for('delete_post', post_id=post.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+        </form>
+        {% endif %}
+    </div>
+</article>
+{% else %}
+<p>No blog posts yet.</p>
+{% endfor %}
+
+{% endblock %}

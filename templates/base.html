@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href= " {{url_for ('static', filename= 'css/main.css')}}">
+
+    
+        <!--Common Bootstrap stylesheet bootstrap/bootstrap.min.css-->
+      <!-- Common custom stylesheet filename='css/main.css-->
+
+
+    <title> {% block title %} CookBook {% endblock %} </title>
+
+    {% block styles %}{% endblock %}
+
+    </head>
+
+    <body>
+   
+  <!-- Common navbar for all pages -->
+<nav class="navbar navbar-expand-lg bg-body-tertiary custom-navbar">
+  <div class="container navbar-center-layout"> <!-- centred layout -->
+    <a class="navbar-brand" href="#logo"><img src="static/img/ananavibe-spice-4375361_1920.jpg" alt="CookBook Logo" class="custom-logo"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('blog') }}">Blogs</a>
+        </li>
+        {% if current_user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('new_post') }}">New Post</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('account') }}">Account</a>
+        </li>
+        <li class="nav-item">
+          <form class="d-inline" action="{{ url_for('logout') }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="nav-link border-0 bg-transparent" type="submit">Logout</button>
+          </form>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('login') }}">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('register') }}">Sign Up</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="container mt-4">
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+
+<main class="site-center-layout">  <!-- centred layout -->
+ 
+  {% block page_header %}
+  <!-- Page-specific header content -->
+  {% endblock %}
+
+  
+    
+   
+
+  {% block content %}
+ <!-- blocke coneteni is for blogcontent index.html/blog.html -->
+  {% endblock %}
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+   
+</body>
+</html>

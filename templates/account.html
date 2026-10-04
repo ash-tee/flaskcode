@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Account{% endblock %}
+
+{% block content %}
+<section class="content-register-section">
+    <h1>Account</h1>
+    <img class="rounded-circle mb-3" width="128" height="128"
+         src="{{ url_for('static', filename=current_user.profile_image) }}"
+         alt="Your profile picture">
+    <form method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            {{ form.username.label(class="form-label") }}
+            {{ form.username(class="form-control" ~ (" is-invalid" if form.username.errors else "")) }}
+            {% for error in form.username.errors %}
+            <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <div class="mb-3">
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-control" ~ (" is-invalid" if form.email.errors else "")) }}
+            {% for error in form.email.errors %}
+            <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+        </div>
+        <div class="mb-3">
+            {{ form.picture.label(class="form-label") }}
+            {{ form.picture(class="form-control" ~ (" is-invalid" if form.picture.errors else ""), accept=".jpg,.jpeg,.png") }}
+            {% for error in form.picture.errors %}
+            <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+            <div class="form-text">JPG or PNG, maximum upload size 2 MB.</div>
+        </div>
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+</section>
+{% endblock %}
